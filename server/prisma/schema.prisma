@@ -1,0 +1,42 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  // output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+// Another way oto geernate a schema and can be used when define some models
+// generator nestgraphql {
+//   provider               = "node node_modules/prisma-nestjs-graphql"
+//   output                 = "../src/@generated/prisma-nestjs-graphql"
+//   fields_Validator_from  = "class-validator"
+//   fields_Validator_input = true
+// }
+
+// model definitions
+model Author {
+  id     String  @id @default(auto()) @map("_id") @db.ObjectId
+  name   String?
+  gender Int
+  /// @Validator.IsEmail()
+  email  String
+  books  Book[]
+}
+
+model Book {
+  id       String  @id @default(auto()) @map("_id") @db.ObjectId
+  /// @Validator.MinLength(1)
+  name     String  @unique
+  type     String?
+  author   Author  @relation(fields: [authorId], references: [id])
+  authorId String  @db.ObjectId
+}
