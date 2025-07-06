@@ -3,9 +3,13 @@
 ## How to run project
 
 ```sh
+# Step 0:
+# Please ensure you have a .env file `DATABASE_URL=MONGO_URL` setup 
+
 # For server start:
 cd server
 npm run dev
+
 # For client start:
 cd client
 npm run dev
